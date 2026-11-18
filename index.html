@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Despacho/Audiência - STJ</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f8; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #003366; padding-bottom: 20px; margin-bottom: 30px; }
+        .header h1 { color: #003366; margin: 0; font-size: 24px; }
+        .header h2 { color: #555; margin: 10px 0 0 0; font-size: 16px; font-weight: normal; }
+        .section-title { background-color: #003366; color: white; padding: 10px; border-radius: 4px; margin-top: 30px; margin-bottom: 15px; font-size: 16px; }
+        .form-group { margin-bottom: 15px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .form-row .form-group { flex: 1; margin-bottom: 0; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select, textarea, input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: Arial, sans-serif; }
+        textarea { resize: vertical; }
+        .help-text { font-size: 12px; color: #666; margin-top: 3px; }
+        
+        .btn-submit { background-color: #003366; color: white; padding: 14px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 20px; font-weight: bold; }
+        .btn-submit:hover { background-color: #002244; }
+        .btn-submit:disabled { background-color: #666; cursor: not-allowed; }
+        
+        .btn-add { background-color: #e6f0fa; color: #003366; border: 1px solid #cce0f5; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; box-sizing: border-box; margin-top: 15px; margin-bottom: 20px; text-align: center; font-weight: bold; transition: 0.2s; }
+        .btn-add:hover { background-color: #d0e4f7; border-color: #b3d4f5; }
+        
+        .btn-remove { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-remove:hover { background-color: #c82333; }
+        
+        .divider { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
+        .block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .block-box { border: 1px solid #e9ecef; background-color: #fafafa; padding: 20px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Superior Tribunal de Justiça (STJ)</h1>
+        <h2>Gabinete do Ministro Antonio Carlos Ferreira<br>Juiz Auxiliar Eurico</h2>
+        <p>Formulário de Solicitação de Despacho / Audiência</p>
+    </div>
+
+    <form id="form-pedidos">
+        
+        <!-- BLOCO 1: INFORMAÇÕES DO PROCESSO -->
+        <div class="section-title">1. Informações do Processo</div>
+        
+        <div id="area-processos">
+            <div class="process-container" id="container-processo-1">
+                <div class="block-box" id="bloco-processo-1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo do Processo</label>
+                            <select name="tipo_processo_1" required>
+                                <option value="">Selecione...</option>
+                                <option value="QC">QC</option><option value="CR">CR</option>
+                                <option value="CC">CC</option><option value="Rcl">Rcl</option>
+                                <option value="HDE">HDE</option><option value="SS">SS</option>
+                                <option value="TutCautAnt">TutCautAnt</option><option value="MS">MS</option>
+                                <option value="TutAntAnt">TutAntAnt</option><option value="SLS">SLS</option>
+                                <option value="APn">APn</option><option value="RMS">RMS</option>
+                                <option value="EAREsp">EAREsp</option><option value="AREsp">AREsp</option>
+                                <option value="EREsp">EREsp</option><option value="Inq">Inq</option>
+                                <option value="REsp">REsp</option><option value="Pet">Pet</option>
+                                <option value="AR">AR</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Número do Processo</label>
+                            <input type="text" name="numero_processo_1" placeholder="Ex: 1.234.567" oninput="formatarNumero(this)" required>
+                        </div>
+                        <div class="form-group">
+                            <label>UF de Origem</label>
+                            <select name="uf_origem_1" required>
+                                <option value="">Selecione...</option>
+                                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ano (STJ)</label>
+                            <input type="number" name="ano_stj_1" placeholder="Ex: 2023" min="1990" max="2030">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ministro Relator</label>
+                            <select name="ministro_relator_1">
+                                <option value="">Selecione...</option>
+                                <option value="MACF">MACF - Antonio Carlos Ferreira</option>
+                                <option value="MIG">MIG - Maria Isabel Gallotti</option>
+                                <option value="MLCG">MLCG - Luíz Carlos Gamboli</option>
+                                <option value="MJON">MJON - João Otávio de Noronha</option>
+                                <option value="MHM">MHM - Humberto Martins</option>
+                                <option value="MRA">MRA - Raul Araújo</option>
+                                <option value="MLFS">MLFS - Luis Felipe Salomão</option>
+                                <option value="MSRJ">MSRJ - Sebastião Reis Junior</option>
+                                <option value="MRVBC">MRVBC - Ricardo Villas Bôas Cueva</option>
+                                <option value="MMTAM">MMTAM - Maria Thereza de Assis Moura</option>
+                                <option value="MDT">MDT - Daniela Teixeira</option>
+                                <option value="MOF">MOF - Og Fernandes</option>
+                                <option value="MMR">MMR - Moura Ribeiro</option>
+                                <option value="MMCM">MMCM - Mauro Campbell Marques</option>
+                                <option value="MBG">MBG - Benedito Gonçalves</option>
+                                <option value="MHB">MHB - Herman Benjamin</option>
+                                <option value="MNA">MNA - Nancy Andrighi</option>
+                                <option value="MMAB">MMAB - Marco Aurélio Bellizze</option>
+                                <option value="MFF">MFF - Francisco Falcão</option>
+                                <option value="MMB">MMB - Marco Buzzi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Órgão Julgador</label>
+                            <select name="orgao_julgador_1">
+                                <option value="">Selecione...</option>
+                                <option value="1ª Turma">1ª Turma</option>
+                                <option value="2ª Turma">2ª Turma</option>
+                                <option value="3ª Turma">3ª Turma</option>
+                                <option value="4ª Turma">4ª Turma</option>
+                                <option value="Primeira Seção">Primeira Seção</option>
+                                <option value="Segunda Seção">Segunda Seção</option>
+                                <option value="Corte Especial">Corte Especial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Modalidade da Pauta</label>
+                            <select name="situacao_pauta_1">
+                                <option value="">Selecione...</option>
+                                <option value="Presencial">Presencial</option>
+                                <option value="Virtual">Virtual</option>
+                                <option value="Não Pautado">Não Pautado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data (se pautado)</label>
+                            <input type="date" name="data_pauta_1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-add" onclick="adicionarProcesso()">+ Adicionar outro processo</div>
+
+        <!-- BLOCO 2: DETALHES DO PEDIDO E DOCUMENTAÇÃO -->
+        <div class="section-title">2. Detalhes do Pedido e Documentação</div>
+
+        <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+                <label>Nome das Partes Envolvidas no Caso</label>
+                <textarea name="nome_partes" rows="2" placeholder="Autor: ... / Réu: ..." required></textarea>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Qual parte você representa?</label>
+                <select name="parte_representada" onchange="mostrarCampoOutro(this)" required>
+                    <option value="">Selecione...</option>
+                    <option value="Recorrente">Recorrente</option>
+                    <option value="Recorrido">Recorrido</option>
+                    <option value="Interessado">Interessado</option>
+                    <option value="Agravante">Agravante</option>
+                    <option value="Agravado">Agravado</option>
+                    <option value="Embargante">Embargante</option>
+                    <option value="Embargado">Embargado</option>
+                    <option value="Réu">Réu</option>
+                    <option value="Suscitante">Suscitante</option>
+                    <option value="Suscitado">Suscitado</option>
+                    <option value="Autor">Autor</option>
+                    <option value="Requerente">Requerente</option>
+                    <option value="Requerido">Requerido</option>
+                    <option value="Outro">Outro...</option>
+                </select>
+                <input type="text" name="parte_representada_outro" placeholder="Digite qual parte..." style="display: none; margin-top: 10px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Breve explicação do caso e motivo do pedido</label>
+            <textarea name="explicacao_caso" rows="4" placeholder="Descreva de forma resumida o que você precisa..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Anexar Memoriais / Documentos (Opcional)</label>
+            <input type="file" id="arquivo_memorial" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
+            <div class="help-text">Você pode selecionar até 5 arquivos de uma vez. Tamanho máximo de 5MB por arquivo.</div>
+        </div>
+
+        <!-- BLOCO 3: DADOS DO SOLICITANTE -->
+        <div class="section-title">3. Dados do Advogado Solicitante</div>
+        
+        <div id="area-advogados">
+            <div class="advogado-container" id="container-advogado-1">
+                <div id="bloco-advogado-1">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label>Nome Completo do Advogado</label>
+                            <input type="text" name="nome_advogado_1" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>E-mail (para resposta)</label>
+                            <input type="email" name="email_advogado_1" placeholder="email@exemplo.com.br" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Número da OAB</label>
+                            <input type="text" name="numero_oab_1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>UF da OAB</label>
+                            <select name="uf_oab_1" required>
+                                <option value="">Selecione...</option>
+                                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone para Contato</label>
+                            <input type="tel" name="telefone_advogado_1" placeholder="(00) 00000-0000" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="btn-add" onclick="adicionarAdvogado()">+ Adicionar outro advogado</div>
+
+        <button type="submit" class="btn-submit">Enviar Solicitação</button>
+
+    </form>
+</div>
+
+<script>
+    function formatarNumero(campo) {
+        let valor = campo.value.replace(/\D/g, ''); 
+        if (valor.length > 7) { valor = valor.substring(0, 7); }
+        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        campo.value = valor;
+    }
+
+    function mostrarCampoOutro(select) {
+        var inputOutro = document.querySelector('input[name="parte_representada_outro"]');
+        if (select.value === "Outro") {
+            inputOutro.style.display = "block";
+            inputOutro.required = true;
+        } else {
+            inputOutro.style.display = "none";
+            inputOutro.required = false;
+            inputOutro.value = "";
+        }
+    }
+
+    let contadorProcessos = 1;
+    function adicionarProcesso() {
+        contadorProcessos++;
+        let area = document.getElementById('area-processos');
+        let novoContainer = document.createElement('div');
+        novoContainer.className = 'process-container';
+        
+        let linhaDivisoria = document.createElement('hr');
+        linhaDivisoria.className = 'divider';
+        
+        let cabecalho = document.createElement('div');
+        cabecalho.className = 'block-header';
+        cabecalho.innerHTML = '<strong>Processo ' + contadorProcessos + '</strong> <button type="button" class="btn-remove" onclick="removerElemento(this)">Remover este processo</button>';
+        
+        let blocoOriginal = document.getElementById('bloco-processo-1');
+        let novoBloco = blocoOriginal.cloneNode(true);
+        novoBloco.id = 'bloco-processo-' + contadorProcessos;
+        
+        let campos = novoBloco.querySelectorAll('input, select');
+        for (let i = 0; i < campos.length; i++) {
+            campos[i].value = ''; 
+            if (campos[i].name) {
+                campos[i].name = campos[i].name.replace(/_\d+$/, '_' + contadorProcessos);
+            }
+        }
+        
+        novoContainer.appendChild(linhaDivisoria);
+        novoContainer.appendChild(cabecalho);
+        novoContainer.appendChild(novoBloco);
+        area.appendChild(novoContainer);
+    }
+
+    let contadorAdvogados = 1;
+    function adicionarAdvogado() {
+        contadorAdvogados++;
+        let area = document.getElementById('area-advogados');
+        let novoContainer = document.createElement('div');
+        novoContainer.className = 'advogado-container';
+        
+        let linhaDivisoria = document.createElement('hr');
+        linhaDivisoria.className = 'divider';
+        
+        let cabecalho = document.createElement('div');
+        cabecalho.className = 'block-header';
+        cabecalho.innerHTML = '<strong>Advogado ' + contadorAdvogados + '</strong> <button type="button" class="btn-remove" onclick="removerElemento(this)">Remover este advogado</button>';
+        
+        let blocoOriginal = document.getElementById('bloco-advogado-1');
+        let novoBloco = blocoOriginal.cloneNode(true);
+        novoBloco.id = 'bloco-advogado-' + contadorAdvogados;
+        
+        let campos = novoBloco.querySelectorAll('input, select');
+        for (let i = 0; i < campos.length; i++) {
+            campos[i].value = ''; 
+            if (campos[i].name) {
+                campos[i].name = campos[i].name.replace(/_\d+$/, '_' + contadorAdvogados);
+            }
+        }
+        
+        novoContainer.appendChild(linhaDivisoria);
+        novoContainer.appendChild(cabecalho);
+        novoContainer.appendChild(novoBloco);
+        area.appendChild(novoContainer);
+    }
+
+    function removerElemento(botao) {
+        botao.parentElement.parentElement.remove();
+    }
+
+    document.getElementById('form-pedidos').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        var form = this;
+        var btn = form.querySelector('.btn-submit');
+        var textoOriginal = btn.innerText;
+
+        var fileInput = document.getElementById('arquivo_memorial');
+        var files = fileInput.files;
+
+        if (files.length > 5) {
+            alert("⚠️ Você selecionou mais de 5 arquivos. O limite é de 5 arquivos por pedido.");
+            return;
+        }
+
+        for (var i = 0; i < files.length; i++) {
+            if (files[i].size > 5 * 1024 * 1024) {
+                alert("⚠️ O arquivo '" + files[i].name + "' é muito grande. O limite máximo é de 5MB por arquivo.");
+                return;
+            }
+        }
+
+        btn.innerText = "Enviando dados e anexos... Aguarde (pode demorar um pouco)";
+        btn.style.backgroundColor = "#666";
+        btn.disabled = true;
+
+        var formData = new FormData(form);
+        var searchParams = new URLSearchParams();
+        
+        for (var pair of formData.entries()) {
+            if (pair[1] instanceof File) continue; 
+            
+            if (pair[0].startsWith('nome_advogado_') || pair[0].startsWith('email_advogado_') || 
+                pair[0].startsWith('numero_oab_') || pair[0].startsWith('uf_oab_') || pair[0].startsWith('telefone_advogado_')) {
+                continue;
+            }
+
+            if (pair[0] === 'parte_representada') {
+                if (pair[1] === 'Outro') {
+                    searchParams.append(pair[0], formData.get('parte_representada_outro'));
+                } else {
+                    searchParams.append(pair[0], pair[1]);
+                }
+                continue;
+            }
+            if (pair[0] === 'parte_representada_outro') {
+                continue; 
+            }
+
+            searchParams.append(pair[0], pair[1]);
+        }
+
+        var listaNomes = [], listaEmails = [], listaOab = [], listaUf = [], listaTel = [];
+        
+        for (var k = 1; k <= contadorAdvogados; k++) {
+            if (form.elements['nome_advogado_' + k]) {
+                listaNomes.push(form.elements['nome_advogado_' + k].value);
+                listaEmails.push(form.elements['email_advogado_' + k].value);
+                listaOab.push(form.elements['numero_oab_' + k].value);
+                listaUf.push(form.elements['uf_oab_' + k].value);
+                listaTel.push(form.elements['telefone_advogado_' + k].value);
+            }
+        }
+
+        searchParams.append('nome_advogado', listaNomes.join(" / "));
+        searchParams.append('email_advogado', listaEmails.join(" / "));
+        searchParams.append('numero_oab', listaOab.join(" / "));
+        searchParams.append('uf_oab', listaUf.join(" / "));
+        searchParams.append('telefone_advogado', listaTel.join(" / "));
+
+        if (files.length > 0) {
+            var arquivosProcessados = 0;
+            for (let i = 0; i < files.length; i++) {
+                let reader = new FileReader();
+                reader.onload = function(evento) {
+                    var conteudoBase64 = evento.target.result.split(',')[1];
+                    searchParams.append('arquivoNome_' + i, files[i].name);
+                    searchParams.append('arquivoTipo_' + i, files[i].type);
+                    searchParams.append('arquivoConteudo_' + i, conteudoBase64);
+                    
+                    arquivosProcessados++;
+                    if (arquivosProcessados === files.length) {
+                        enviarDados(searchParams, btn, textoOriginal, form);
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        } else {
+            enviarDados(searchParams, btn, textoOriginal, form);
+        }
+    });
+
+    function enviarDados(searchParams, btn, textoOriginal, form) {
+        var urlPlanilha = "https://script.google.com/macros/s/AKfycbyC3KawELcDaVRa-h2meNMlcpOOimb-ZNvYnMXC1DaVkYzcivDT99em-KfFM2YLFJDKug/exec"; 
+
+        fetch(urlPlanilha, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: searchParams
+        })
+        .then(function() {
+            alert("✅ Pedido enviado com sucesso para o gabinete!");
+            form.reset();
+            window.location.reload();
+        })
+        .catch(function(error) {
+            alert("⚠️ Houve um erro na conexão. Tente novamente.");
+            btn.innerText = textoOriginal;
+            btn.style.backgroundColor = "#003366";
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
