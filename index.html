@@ -3,57 +3,580 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos de Despacho/Audiência - STJ</title>
+    <title>Solicitação de Despacho e Audiência - STJ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f8; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 2px solid #003366; padding-bottom: 20px; margin-bottom: 30px; }
-        .header h1 { color: #003366; margin: 0; font-size: 24px; }
-        .header h2 { color: #555; margin: 10px 0 0 0; font-size: 16px; font-weight: normal; }
-        .section-title { background-color: #003366; color: white; padding: 10px; border-radius: 4px; margin-top: 30px; margin-bottom: 15px; font-size: 16px; }
-        .form-group { margin-bottom: 15px; }
-        .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
-        .form-row .form-group { flex: 1; margin-bottom: 0; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select, textarea, input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: Arial, sans-serif; }
-        textarea { resize: vertical; }
-        .help-text { font-size: 12px; color: #666; margin-top: 3px; }
-        
-        .btn-submit { background-color: #003366; color: white; padding: 14px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 20px; font-weight: bold; }
-        .btn-submit:hover { background-color: #002244; }
-        .btn-submit:disabled { background-color: #666; cursor: not-allowed; }
-        
-        .btn-add { background-color: #e6f0fa; color: #003366; border: 1px solid #cce0f5; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; box-sizing: border-box; margin-top: 15px; margin-bottom: 20px; text-align: center; font-weight: bold; transition: 0.2s; }
-        .btn-add:hover { background-color: #d0e4f7; border-color: #b3d4f5; }
-        
-        .btn-remove { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-remove:hover { background-color: #c82333; }
-        
-        .divider { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
-        .block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .block-box { border: 1px solid #e9ecef; background-color: #fafafa; padding: 20px; border-radius: 6px; }
+        :root {
+            --navy-900: #0a1f38;
+            --navy-800: #0f2d52;
+            --navy-700: #184175;
+            --gold-500: #c59b27;
+            --gold-100: #fef9c3;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-900: #0f172a;
+            --danger-600: #dc2626;
+            --danger-50: #fef2f2;
+            --success-600: #16a34a;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #e2e8f0 0%, #f1f5f9 260px);
+            color: var(--slate-900);
+            margin: 0;
+            padding: 32px 16px 60px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 12px 32px rgba(10, 31, 56, 0.08), 0 2px 6px rgba(10, 31, 56, 0.04);
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+        }
+
+        /* Cabeçalho Institucional */
+        .header {
+            background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+            color: #ffffff;
+            padding: 34px 40px 30px;
+            text-align: center;
+            border-bottom: 4px solid var(--gold-500);
+            position: relative;
+        }
+
+        .header-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: #fde68a;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(253, 230, 138, 0.25);
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .header h2 {
+            margin: 10px 0 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .header h2 strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .form-body {
+            padding: 32px 36px 40px;
+        }
+
+        /* Títulos de Seção */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 34px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--slate-100);
+        }
+
+        .section-header:first-child {
+            margin-top: 0;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--navy-800);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-title-text {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy-900);
+            margin: 0;
+        }
+
+        /* Cartões Dinâmicos (Processos e Advogados) */
+        .card-box {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 20px 20px 8px;
+            margin-bottom: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            animation: slideFadeIn 0.25s ease-out;
+        }
+
+        .card-box:hover {
+            border-color: var(--slate-300);
+        }
+
+        @keyframes slideFadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--slate-300);
+        }
+
+        .card-badge {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy-800);
+            background: #e0eaf5;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Grid de Campos */
+        .form-row {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 14px;
+            min-width: 0;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--slate-700);
+        }
+
+        .req {
+            color: var(--danger-600);
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--slate-300);
+            border-radius: 8px;
+            background-color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--slate-900);
+            transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--navy-700);
+            box-shadow: 0 0 0 3px rgba(24, 65, 117, 0.12);
+        }
+
+        input:disabled {
+            background-color: var(--slate-100);
+            color: var(--slate-500);
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--slate-500);
+            margin-top: 5px;
+        }
+
+        /* Botões Adicionar e Remover */
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #ffffff;
+            color: var(--navy-800);
+            border: 1.5px dashed #93b4d8;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: #f0f6fc;
+            border-color: var(--navy-700);
+            border-style: solid;
+        }
+
+        .btn-remove {
+            background-color: var(--danger-50);
+            color: var(--danger-600);
+            border: 1px solid #fecaca;
+            padding: 5px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        .btn-remove:hover {
+            background-color: var(--danger-600);
+            color: #ffffff;
+            border-color: var(--danger-600);
+        }
+
+        /* Área de Upload Moderna */
+        .upload-zone {
+            border: 2px dashed var(--slate-300);
+            border-radius: 10px;
+            background: var(--slate-50);
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--navy-700);
+            background: #f0f6fc;
+        }
+
+        .upload-icon {
+            font-size: 26px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .upload-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy-800);
+        }
+
+        .upload-subtitle {
+            font-size: 12px;
+            color: var(--slate-500);
+            margin-top: 4px;
+        }
+
+        .upload-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--slate-500);
+        }
+
+        .folder-rule-badge {
+            font-weight: 600;
+            color: var(--navy-700);
+            background: #e6f0fa;
+            padding: 3px 9px;
+            border-radius: 999px;
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid var(--slate-200);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            animation: slideFadeIn 0.2s ease-out;
+        }
+
+        .file-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .file-ext-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--navy-800);
+            color: #ffffff;
+            padding: 3px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: var(--slate-900);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-size {
+            color: var(--slate-500);
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .file-remove-btn {
+            background: none;
+            border: none;
+            color: var(--slate-500);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .file-remove-btn:hover {
+            color: var(--danger-600);
+            background: var(--danger-50);
+        }
+
+        /* Botão Principal */
+        .btn-submit {
+            background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-900) 100%);
+            color: #ffffff;
+            padding: 15px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(15, 45, 82, 0.2);
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(15, 45, 82, 0.28);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Toast de Aviso */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--slate-900);
+            color: #ffffff;
+            padding: 13px 18px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--gold-500);
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 1000;
+            max-width: 380px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal de Sucesso */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 31, 56, 0.55);
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            max-width: 440px;
+            width: 100%;
+            border-radius: 14px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: slideFadeIn 0.25s ease-out;
+        }
+
+        .modal-check {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: var(--success-600);
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-weight: bold;
+        }
+
+        .modal-card h3 {
+            margin: 0 0 8px;
+            color: var(--navy-900);
+            font-size: 20px;
+        }
+
+        .modal-card p {
+            margin: 0 0 22px;
+            color: var(--slate-500);
+            font-size: 14px;
+        }
+
+        .btn-modal {
+            background: var(--navy-800);
+            color: #ffffff;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Responsividade Mobile */
+        @media (max-width: 720px) {
+            body { padding: 12px 10px 40px; }
+            .header { padding: 24px 20px; }
+            .header h1 { font-size: 20px; }
+            .form-body { padding: 22px 18px 28px; }
+            .form-row { flex-direction: column; gap: 12px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>Superior Tribunal de Justiça (STJ)</h1>
-        <h2>Gabinete do Ministro Antonio Carlos Ferreira<br>Juiz Auxiliar Eurico</h2>
-        <p>Formulário de Solicitação de Despacho / Audiência</p>
+        <div class="header-badge">Atendimento a Advogados</div>
+        <h1>Superior Tribunal de Justiça</h1>
+        <h2>
+            <strong>Gabinete do Ministro Antonio Carlos Ferreira</strong><br>
+            Juiz Auxiliar Dr. Eurico • Solicitação de Despacho e Audiência
+        </h2>
     </div>
 
-    <form id="form-pedidos">
-        
-        <!-- BLOCO 1: INFORMAÇÕES DO PROCESSO -->
-        <div class="section-title">1. Informações do Processo</div>
-        
-        <div id="area-processos">
-            <div class="process-container" id="container-processo-1">
-                <div class="block-box" id="bloco-processo-1">
+    <div class="form-body">
+        <form id="form-pedidos">
+
+            <!-- BLOCO 1: INFORMAÇÕES DO PROCESSO -->
+            <div class="section-header">
+                <div class="step-number">1</div>
+                <h3 class="section-title-text">Informações do Processo</h3>
+            </div>
+
+            <div id="area-processos">
+                <div class="card-box process-container">
+                    <div class="card-top-bar" style="display: none;">
+                        <span class="card-badge process-label">Processo 1</span>
+                        <button type="button" class="btn-remove" onclick="removerProcesso(this)">Remover processo</button>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Tipo do Processo</label>
+                            <label>Tipo do Processo <span class="req">*</span></label>
                             <select name="tipo_processo_1" required>
                                 <option value="">Selecione...</option>
                                 <option value="QC">QC</option><option value="CR">CR</option>
@@ -69,11 +592,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Número do Processo</label>
+                            <label>Número do Processo <span class="req">*</span></label>
                             <input type="text" name="numero_processo_1" placeholder="Ex: 1.234.567" oninput="formatarNumero(this)" required>
                         </div>
                         <div class="form-group">
-                            <label>UF de Origem</label>
+                            <label>UF de Origem <span class="req">*</span></label>
                             <select name="uf_origem_1" required>
                                 <option value="">Selecione...</option>
                                 <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
@@ -89,14 +612,14 @@
                         </div>
                         <div class="form-group">
                             <label>Ano (STJ)</label>
-                            <input type="number" name="ano_stj_1" placeholder="Ex: 2023" min="1990" max="2030">
+                            <input type="number" name="ano_stj_1" placeholder="Ex: 2026" min="1990" max="2035">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Ministro Relator</label>
-                            <select name="ministro_relator_1">
+                            <label>Ministro Relator <span class="req">*</span></label>
+                            <select name="ministro_relator_1" required>
                                 <option value="">Selecione...</option>
                                 <option value="MACF">MACF - Antonio Carlos Ferreira</option>
                                 <option value="MIG">MIG - Maria Isabel Gallotti</option>
@@ -135,7 +658,7 @@
                         </div>
                         <div class="form-group">
                             <label>Modalidade da Pauta</label>
-                            <select name="situacao_pauta_1">
+                            <select name="situacao_pauta_1" onchange="atualizarEstadoData(this)">
                                 <option value="">Selecione...</option>
                                 <option value="Presencial">Presencial</option>
                                 <option value="Virtual">Virtual</option>
@@ -149,76 +672,94 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="btn-add" onclick="adicionarProcesso()">+ Adicionar outro processo</div>
+            <button type="button" class="btn-add" onclick="adicionarProcesso()">+ Adicionar outro processo ao pedido</button>
 
-        <!-- BLOCO 2: DETALHES DO PEDIDO E DOCUMENTAÇÃO -->
-        <div class="section-title">2. Detalhes do Pedido e Documentação</div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex: 2;">
-                <label>Nome das Partes Envolvidas no Caso</label>
-                <textarea name="nome_partes" rows="2" placeholder="Autor: ... / Réu: ..." required></textarea>
+            <!-- BLOCO 2: DETALHES DO PEDIDO E DOCUMENTAÇÃO -->
+            <div class="section-header">
+                <div class="step-number">2</div>
+                <h3 class="section-title-text">Detalhes do Pedido e Documentação</h3>
             </div>
-            <div class="form-group" style="flex: 1;">
-                <label>Qual parte você representa?</label>
-                <select name="parte_representada" onchange="mostrarCampoOutro(this)" required>
-                    <option value="">Selecione...</option>
-                    <option value="Recorrente">Recorrente</option>
-                    <option value="Recorrido">Recorrido</option>
-                    <option value="Interessado">Interessado</option>
-                    <option value="Agravante">Agravante</option>
-                    <option value="Agravado">Agravado</option>
-                    <option value="Embargante">Embargante</option>
-                    <option value="Embargado">Embargado</option>
-                    <option value="Réu">Réu</option>
-                    <option value="Suscitante">Suscitante</option>
-                    <option value="Suscitado">Suscitado</option>
-                    <option value="Autor">Autor</option>
-                    <option value="Requerente">Requerente</option>
-                    <option value="Requerido">Requerido</option>
-                    <option value="Outro">Outro...</option>
-                </select>
-                <input type="text" name="parte_representada_outro" placeholder="Digite qual parte..." style="display: none; margin-top: 10px;">
+
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label>Nome das Partes Envolvidas no Caso <span class="req">*</span></label>
+                    <textarea name="nome_partes" rows="2" placeholder="Ex: Recorrente: Empresa X / Recorrido: João da Silva" required></textarea>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Qual parte você representa? <span class="req">*</span></label>
+                    <select name="parte_representada" onchange="mostrarCampoOutro(this)" required>
+                        <option value="">Selecione...</option>
+                        <option value="Recorrente">Recorrente</option>
+                        <option value="Recorrido">Recorrido</option>
+                        <option value="Interessado">Interessado</option>
+                        <option value="Agravante">Agravante</option>
+                        <option value="Agravado">Agravado</option>
+                        <option value="Embargante">Embargante</option>
+                        <option value="Embargado">Embargado</option>
+                        <option value="Réu">Réu</option>
+                        <option value="Suscitante">Suscitante</option>
+                        <option value="Suscitado">Suscitado</option>
+                        <option value="Autor">Autor</option>
+                        <option value="Requerente">Requerente</option>
+                        <option value="Requerido">Requerido</option>
+                        <option value="Outro">Outro...</option>
+                    </select>
+                    <input type="text" name="parte_representada_outro" placeholder="Especifique a parte..." style="display: none; margin-top: 8px;">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label>Breve explicação do caso e motivo do pedido</label>
-            <textarea name="explicacao_caso" rows="4" placeholder="Descreva de forma resumida o que você precisa..." required></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>Anexar Memoriais / Documentos (Opcional)</label>
-            <input type="file" id="arquivo_memorial" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
-            <div class="help-text">Você pode selecionar até 5 arquivos de uma vez. Tamanho máximo de 5MB por arquivo.</div>
-        </div>
+            <div class="form-group">
+                <label>Breve explicação do caso e motivo do pedido <span class="req">*</span></label>
+                <textarea name="explicacao_caso" rows="4" placeholder="Apresente uma síntese objetiva da controvérsia e o motivo da solicitação de audiência ou despacho..." required></textarea>
+            </div>
 
-        <!-- BLOCO 3: DADOS DO SOLICITANTE -->
-        <div class="section-title">3. Dados do Advogado Solicitante</div>
-        
-        <div id="area-advogados">
-            <div class="advogado-container" id="container-advogado-1">
-                <div id="bloco-advogado-1">
+            <div class="form-group">
+                <label>Anexar Memoriais / Documentos (Opcional)</label>
+                <div class="upload-zone" id="drop-zone" onclick="document.getElementById('arquivo_memorial').click()">
+                    <span class="upload-icon">📄</span>
+                    <div class="upload-title">Clique para selecionar ou arraste os arquivos aqui</div>
+                    <div class="upload-subtitle">Formatos aceitos: PDF, Word ou Imagem • Até 5 arquivos (máx. 5MB cada)</div>
+                    <input type="file" id="arquivo_memorial" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple style="display: none;">
+                </div>
+                <div class="upload-status-bar">
+                    <span id="contador-arquivos">Nenhum arquivo anexado (0/5)</span>
+                    <span class="folder-rule-badge" id="aviso-pasta"></span>
+                </div>
+                <div class="file-list" id="lista-arquivos"></div>
+            </div>
+
+            <!-- BLOCO 3: DADOS DO SOLICITANTE -->
+            <div class="section-header">
+                <div class="step-number">3</div>
+                <h3 class="section-title-text">Dados do Advogado Solicitante</h3>
+            </div>
+
+            <div id="area-advogados">
+                <div class="card-box advogado-container">
+                    <div class="card-top-bar" style="display: none;">
+                        <span class="card-badge advogado-label">Advogado 1</span>
+                        <button type="button" class="btn-remove" onclick="removerAdvogado(this)">Remover advogado</button>
+                    </div>
+
                     <div class="form-row">
-                        <div class="form-group" style="flex: 2;">
-                            <label>Nome Completo do Advogado</label>
-                            <input type="text" name="nome_advogado_1" required>
+                        <div class="form-group" style="flex: 1.8;">
+                            <label>Nome Completo do Advogado <span class="req">*</span></label>
+                            <input type="text" name="nome_advogado_1" placeholder="Nome completo" required>
                         </div>
-                        <div class="form-group" style="flex: 1;">
-                            <label>E-mail (para resposta)</label>
-                            <input type="email" name="email_advogado_1" placeholder="email@exemplo.com.br" required>
+                        <div class="form-group" style="flex: 1.2;">
+                            <label>E-mail (para resposta) <span class="req">*</span></label>
+                            <input type="email" name="email_advogado_1" placeholder="email@escritorio.adv.br" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Número da OAB</label>
-                            <input type="text" name="numero_oab_1" required>
+                            <label>Número da OAB <span class="req">*</span></label>
+                            <input type="text" name="numero_oab_1" placeholder="Ex: 12345" required>
                         </div>
                         <div class="form-group">
-                            <label>UF da OAB</label>
+                            <label>UF da OAB <span class="req">*</span></label>
                             <select name="uf_oab_1" required>
                                 <option value="">Selecione...</option>
                                 <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
@@ -233,34 +774,93 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Telefone para Contato</label>
-                            <input type="tel" name="telefone_advogado_1" placeholder="(00) 00000-0000" required>
+                            <label>Telefone para Contato <span class="req">*</span></label>
+                            <input type="tel" name="telefone_advogado_1" placeholder="(61) 99999-9999" oninput="formatarTelefone(this)" required>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="btn-add" onclick="adicionarAdvogado()">+ Adicionar outro advogado</div>
 
-        <button type="submit" class="btn-submit">Enviar Solicitação</button>
+            <button type="button" class="btn-add" onclick="adicionarAdvogado()">+ Adicionar outro advogado</button>
 
-    </form>
+            <button type="submit" class="btn-submit" id="btn-enviar">
+                <div class="spinner" id="spinner-envio"></div>
+                <span id="texto-botao">Enviar Solicitação ao Gabinete</span>
+            </button>
+
+        </form>
+    </div>
+</div>
+
+<!-- Toast de Aviso -->
+<div class="toast" id="toast-aviso"></div>
+
+<!-- Modal de Confirmação -->
+<div class="modal-overlay" id="modal-sucesso">
+    <div class="modal-card">
+        <div class="modal-check">✓</div>
+        <h3>Solicitação Registrada!</h3>
+        <p>Os dados e documentos foram encaminhados com sucesso ao Gabinete do Ministro Antonio Carlos Ferreira. O retorno será enviado ao e-mail informado.</p>
+        <button type="button" class="btn-modal" onclick="window.location.reload()">Fazer Nova Solicitação</button>
+    </div>
 </div>
 
 <script>
-    function formatarNumero(campo) {
-        let valor = campo.value.replace(/\D/g, ''); 
-        if (valor.length > 7) { valor = valor.substring(0, 7); }
-        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        campo.value = valor;
+    // Exibição de avisos flutuantes
+    let toastTimer;
+    function mostrarAviso(mensagem) {
+        const toast = document.getElementById('toast-aviso');
+        toast.textContent = mensagem;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
     }
 
+    // Máscara de número do processo (até 7 dígitos com ponto de milhar)
+    function formatarNumero(campo) {
+        let valor = campo.value.replace(/\D/g, '');
+        if (valor.length > 7) valor = valor.substring(0, 7);
+        campo.value = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Máscara de telefone dinâmica
+    function formatarTelefone(campo) {
+        let v = campo.value.replace(/\D/g, '').substring(0, 11);
+        if (v.length > 10) {
+            campo.value = v.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+        } else if (v.length > 6) {
+            campo.value = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
+        } else if (v.length > 2) {
+            campo.value = v.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
+        } else {
+            campo.value = v;
+        }
+    }
+
+    // Habilita/desabilita data conforme modalidade da pauta
+    function atualizarEstadoData(selectPauta) {
+        const card = selectPauta.closest('.process-container');
+        const inputData = card.querySelector('input[type="date"]');
+        if (selectPauta.value === 'Não Pautado') {
+            inputData.value = '';
+            inputData.disabled = true;
+            inputData.required = false;
+        } else if (selectPauta.value === 'Presencial' || selectPauta.value === 'Virtual') {
+            inputData.disabled = false;
+            inputData.required = true;
+        } else {
+            inputData.disabled = false;
+            inputData.required = false;
+        }
+    }
+
+    // Campo "Outro" em parte representada
     function mostrarCampoOutro(select) {
-        var inputOutro = document.querySelector('input[name="parte_representada_outro"]');
+        const inputOutro = document.querySelector('input[name="parte_representada_outro"]');
         if (select.value === "Outro") {
             inputOutro.style.display = "block";
             inputOutro.required = true;
+            inputOutro.focus();
         } else {
             inputOutro.style.display = "none";
             inputOutro.required = false;
@@ -268,187 +868,255 @@
         }
     }
 
-    let contadorProcessos = 1;
+    // Adição e Reindexação de Processos
     function adicionarProcesso() {
-        contadorProcessos++;
-        let area = document.getElementById('area-processos');
-        let novoContainer = document.createElement('div');
-        novoContainer.className = 'process-container';
-        
-        let linhaDivisoria = document.createElement('hr');
-        linhaDivisoria.className = 'divider';
-        
-        let cabecalho = document.createElement('div');
-        cabecalho.className = 'block-header';
-        cabecalho.innerHTML = '<strong>Processo ' + contadorProcessos + '</strong> <button type="button" class="btn-remove" onclick="removerElemento(this)">Remover este processo</button>';
-        
-        let blocoOriginal = document.getElementById('bloco-processo-1');
-        let novoBloco = blocoOriginal.cloneNode(true);
-        novoBloco.id = 'bloco-processo-' + contadorProcessos;
-        
-        let campos = novoBloco.querySelectorAll('input, select');
-        for (let i = 0; i < campos.length; i++) {
-            campos[i].value = ''; 
-            if (campos[i].name) {
-                campos[i].name = campos[i].name.replace(/_\d+$/, '_' + contadorProcessos);
-            }
-        }
-        
-        novoContainer.appendChild(linhaDivisoria);
-        novoContainer.appendChild(cabecalho);
-        novoContainer.appendChild(novoBloco);
-        area.appendChild(novoContainer);
+        const area = document.getElementById('area-processos');
+        const modelo = area.querySelector('.process-container');
+        const clone = modelo.cloneNode(true);
+
+        clone.querySelector('.card-top-bar').style.display = 'flex';
+        clone.querySelectorAll('input, select').forEach(el => {
+            el.value = '';
+            el.disabled = false;
+            if (el.type === 'date') el.required = false;
+        });
+
+        area.appendChild(clone);
+        reindexarProcessos();
     }
 
-    let contadorAdvogados = 1;
-    function adicionarAdvogado() {
-        contadorAdvogados++;
-        let area = document.getElementById('area-advogados');
-        let novoContainer = document.createElement('div');
-        novoContainer.className = 'advogado-container';
-        
-        let linhaDivisoria = document.createElement('hr');
-        linhaDivisoria.className = 'divider';
-        
-        let cabecalho = document.createElement('div');
-        cabecalho.className = 'block-header';
-        cabecalho.innerHTML = '<strong>Advogado ' + contadorAdvogados + '</strong> <button type="button" class="btn-remove" onclick="removerElemento(this)">Remover este advogado</button>';
-        
-        let blocoOriginal = document.getElementById('bloco-advogado-1');
-        let novoBloco = blocoOriginal.cloneNode(true);
-        novoBloco.id = 'bloco-advogado-' + contadorAdvogados;
-        
-        let campos = novoBloco.querySelectorAll('input, select');
-        for (let i = 0; i < campos.length; i++) {
-            campos[i].value = ''; 
-            if (campos[i].name) {
-                campos[i].name = campos[i].name.replace(/_\d+$/, '_' + contadorAdvogados);
-            }
-        }
-        
-        novoContainer.appendChild(linhaDivisoria);
-        novoContainer.appendChild(cabecalho);
-        novoContainer.appendChild(novoBloco);
-        area.appendChild(novoContainer);
+    function removerProcesso(botao) {
+        botao.closest('.process-container').remove();
+        reindexarProcessos();
     }
 
-    function removerElemento(botao) {
-        botao.parentElement.parentElement.remove();
-    }
-
-    document.getElementById('form-pedidos').addEventListener('submit', function(e) {
-        e.preventDefault(); 
-        
-        var form = this;
-        var btn = form.querySelector('.btn-submit');
-        var textoOriginal = btn.innerText;
-
-        var fileInput = document.getElementById('arquivo_memorial');
-        var files = fileInput.files;
-
-        if (files.length > 5) {
-            alert("⚠️ Você selecionou mais de 5 arquivos. O limite é de 5 arquivos por pedido.");
-            return;
-        }
-
-        for (var i = 0; i < files.length; i++) {
-            if (files[i].size > 5 * 1024 * 1024) {
-                alert("⚠️ O arquivo '" + files[i].name + "' é muito grande. O limite máximo é de 5MB por arquivo.");
-                return;
-            }
-        }
-
-        btn.innerText = "Enviando dados e anexos... Aguarde (pode demorar um pouco)";
-        btn.style.backgroundColor = "#666";
-        btn.disabled = true;
-
-        var formData = new FormData(form);
-        var searchParams = new URLSearchParams();
-        
-        for (var pair of formData.entries()) {
-            if (pair[1] instanceof File) continue; 
-            
-            if (pair[0].startsWith('nome_advogado_') || pair[0].startsWith('email_advogado_') || 
-                pair[0].startsWith('numero_oab_') || pair[0].startsWith('uf_oab_') || pair[0].startsWith('telefone_advogado_')) {
-                continue;
-            }
-
-            if (pair[0] === 'parte_representada') {
-                if (pair[1] === 'Outro') {
-                    searchParams.append(pair[0], formData.get('parte_representada_outro'));
-                } else {
-                    searchParams.append(pair[0], pair[1]);
+    function reindexarProcessos() {
+        const cards = document.querySelectorAll('#area-processos .process-container');
+        cards.forEach((card, index) => {
+            const num = index + 1;
+            const label = card.querySelector('.process-label');
+            if (label) label.textContent = 'Processo ' + num;
+            card.querySelectorAll('input, select').forEach(campo => {
+                if (campo.name) {
+                    campo.name = campo.name.replace(/_\d+$/, '_' + num);
                 }
-                continue;
-            }
-            if (pair[0] === 'parte_representada_outro') {
-                continue; 
-            }
+            });
+        });
+    }
 
-            searchParams.append(pair[0], pair[1]);
-        }
+    // Adição e Reindexação de Advogados
+    function adicionarAdvogado() {
+        const area = document.getElementById('area-advogados');
+        const modelo = area.querySelector('.advogado-container');
+        const clone = modelo.cloneNode(true);
 
-        var listaNomes = [], listaEmails = [], listaOab = [], listaUf = [], listaTel = [];
-        
-        for (var k = 1; k <= contadorAdvogados; k++) {
-            if (form.elements['nome_advogado_' + k]) {
-                listaNomes.push(form.elements['nome_advogado_' + k].value);
-                listaEmails.push(form.elements['email_advogado_' + k].value);
-                listaOab.push(form.elements['numero_oab_' + k].value);
-                listaUf.push(form.elements['uf_oab_' + k].value);
-                listaTel.push(form.elements['telefone_advogado_' + k].value);
-            }
-        }
+        clone.querySelector('.card-top-bar').style.display = 'flex';
+        clone.querySelectorAll('input, select').forEach(el => el.value = '');
 
-        searchParams.append('nome_advogado', listaNomes.join(" / "));
-        searchParams.append('email_advogado', listaEmails.join(" / "));
-        searchParams.append('numero_oab', listaOab.join(" / "));
-        searchParams.append('uf_oab', listaUf.join(" / "));
-        searchParams.append('telefone_advogado', listaTel.join(" / "));
+        area.appendChild(clone);
+        reindexarAdvogados();
+    }
 
-        if (files.length > 0) {
-            var arquivosProcessados = 0;
-            for (let i = 0; i < files.length; i++) {
-                let reader = new FileReader();
-                reader.onload = function(evento) {
-                    var conteudoBase64 = evento.target.result.split(',')[1];
-                    searchParams.append('arquivoNome_' + i, files[i].name);
-                    searchParams.append('arquivoTipo_' + i, files[i].type);
-                    searchParams.append('arquivoConteudo_' + i, conteudoBase64);
-                    
-                    arquivosProcessados++;
-                    if (arquivosProcessados === files.length) {
-                        enviarDados(searchParams, btn, textoOriginal, form);
-                    }
-                };
-                reader.readAsDataURL(files[i]);
-            }
-        } else {
-            enviarDados(searchParams, btn, textoOriginal, form);
+    function removerAdvogado(botao) {
+        botao.closest('.advogado-container').remove();
+        reindexarAdvogados();
+    }
+
+    function reindexarAdvogados() {
+        const cards = document.querySelectorAll('#area-advogados .advogado-container');
+        cards.forEach((card, index) => {
+            const num = index + 1;
+            const label = card.querySelector('.advogado-label');
+            if (label) label.textContent = 'Advogado ' + num;
+            card.querySelectorAll('input, select').forEach(campo => {
+                if (campo.name) {
+                    campo.name = campo.name.replace(/_\d+$/, '_' + num);
+                }
+            });
+        });
+    }
+
+    // Gerenciador inteligente de arquivos (Upload / Drag & Drop)
+    let arquivosSelecionados = [];
+    const inputArquivo = document.getElementById('arquivo_memorial');
+    const dropZone = document.getElementById('drop-zone');
+
+    inputArquivo.addEventListener('change', function() {
+        adicionarNovosArquivos(Array.from(this.files));
+        this.value = '';
+    });
+
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', function() {
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            adicionarNovosArquivos(Array.from(e.dataTransfer.files));
         }
     });
 
-    function enviarDados(searchParams, btn, textoOriginal, form) {
-        var urlPlanilha = "https://script.google.com/macros/s/AKfycbyC3KawELcDaVRa-h2meNMlcpOOimb-ZNvYnMXC1DaVkYzcivDT99em-KfFM2YLFJDKug/exec"; 
+    function adicionarNovosArquivos(novos) {
+        for (const arq of novos) {
+            if (arquivosSelecionados.length >= 5) {
+                mostrarAviso('Limite máximo atingido: até 5 arquivos por solicitação.');
+                break;
+            }
+            if (arq.size > 5 * 1024 * 1024) {
+                mostrarAviso('O arquivo "' + arq.name + '" ultrapassa o limite de 5MB.');
+                continue;
+            }
+            const duplicado = arquivosSelecionados.some(a => a.name === arq.name && a.size === arq.size);
+            if (!duplicado) {
+                arquivosSelecionados.push(arq);
+            }
+        }
+        renderizarListaArquivos();
+    }
+
+    function removerArquivoSelecionado(idx) {
+        arquivosSelecionados.splice(idx, 1);
+        renderizarListaArquivos();
+    }
+
+    function formatarTamanho(bytes) {
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function renderizarListaArquivos() {
+        const container = document.getElementById('lista-arquivos');
+        const contador = document.getElementById('contador-arquivos');
+        const avisoPasta = document.getElementById('aviso-pasta');
+        container.innerHTML = '';
+
+        const total = arquivosSelecionados.length;
+        contador.textContent = total === 0
+            ? 'Nenhum arquivo anexado (0/5)'
+            : total + (total === 1 ? ' arquivo anexado' : ' arquivos anexados') + ' (' + total + '/5)';
+
+        if (total === 1) {
+            avisoPasta.style.display = 'inline-block';
+            avisoPasta.textContent = '1 anexo: envio direto na pasta do Ministro';
+        } else if (total >= 2) {
+            avisoPasta.style.display = 'inline-block';
+            avisoPasta.textContent = total + ' anexos: subpasta automática por processo';
+        } else {
+            avisoPasta.style.display = 'none';
+        }
+
+        arquivosSelecionados.forEach((arq, idx) => {
+            const ext = (arq.name.split('.').pop() || 'ARQ').substring(0, 4);
+            const item = document.createElement('div');
+            item.className = 'file-item';
+            item.innerHTML = `
+                <div class="file-item-left">
+                    <span class="file-ext-tag">${ext}</span>
+                    <span class="file-name">${arq.name}</span>
+                    <span class="file-size">(${formatarTamanho(arq.size)})</span>
+                </div>
+                <button type="button" class="file-remove-btn" title="Remover anexo" onclick="removerArquivoSelecionado(${idx})">✕</button>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    // Submissão do Formulário
+    document.getElementById('form-pedidos').addEventListener('submit', function(e) {
+        e.preventDefault();
+        reindexarProcessos();
+        reindexarAdvogados();
+
+        const form = this;
+        const btn = document.getElementById('btn-enviar');
+        const spinner = document.getElementById('spinner-envio');
+        const textoBotao = document.getElementById('texto-botao');
+
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        textoBotao.textContent = 'Enviando dados e documentos... Aguarde';
+
+        const formData = new FormData(form);
+        const searchParams = new URLSearchParams();
+
+        for (const [chave, valor] of formData.entries()) {
+            if (valor instanceof File) continue;
+            if (chave.startsWith('nome_advogado_') || chave.startsWith('email_advogado_') ||
+                chave.startsWith('numero_oab_') || chave.startsWith('uf_oab_') || chave.startsWith('telefone_advogado_')) {
+                continue;
+            }
+            if (chave === 'parte_representada') {
+                searchParams.append(chave, valor === 'Outro' ? formData.get('parte_representada_outro') : valor);
+                continue;
+            }
+            if (chave === 'parte_representada_outro') continue;
+
+            searchParams.append(chave, valor);
+        }
+
+        // Agrupa os dados dos advogados
+        const qtdAdv = document.querySelectorAll('#area-advogados .advogado-container').length;
+        const nomes = [], emails = [], oabs = [], ufs = [], tels = [];
+        for (let k = 1; k <= qtdAdv; k++) {
+            nomes.push(form.elements['nome_advogado_' + k].value);
+            emails.push(form.elements['email_advogado_' + k].value);
+            oabs.push(form.elements['numero_oab_' + k].value);
+            ufs.push(form.elements['uf_oab_' + k].value);
+            tels.push(form.elements['telefone_advogado_' + k].value);
+        }
+        searchParams.append('nome_advogado', nomes.join(' / '));
+        searchParams.append('email_advogado', emails.join(' / '));
+        searchParams.append('numero_oab', oabs.join(' / '));
+        searchParams.append('uf_oab', ufs.join(' / '));
+        searchParams.append('telefone_advogado', tels.join(' / '));
+
+        // Converte os arquivos da lista dinâmica
+        if (arquivosSelecionados.length > 0) {
+            let processados = 0;
+            arquivosSelecionados.forEach((arq, i) => {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const conteudoBase64 = ev.target.result.split(',')[1];
+                    searchParams.append('arquivoNome_' + i, arq.name);
+                    searchParams.append('arquivoTipo_' + i, arq.type);
+                    searchParams.append('arquivoConteudo_' + i, conteudoBase64);
+
+                    processados++;
+                    if (processados === arquivosSelecionados.length) {
+                        enviarDados(searchParams, btn, spinner, textoBotao);
+                    }
+                };
+                reader.readAsDataURL(arq);
+            });
+        } else {
+            enviarDados(searchParams, btn, spinner, textoBotao);
+        }
+    });
+
+    function enviarDados(searchParams, btn, spinner, textoBotao) {
+        const urlPlanilha = "https://script.google.com/macros/s/AKfycbyC3KawELcDaVRa-h2meNMlcpOOimb-ZNvYnMXC1DaVkYzcivDT99em-KfFM2YLFJDKug/exec";
 
         fetch(urlPlanilha, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: searchParams
         })
         .then(function() {
-            alert("✅ Pedido enviado com sucesso para o gabinete!");
-            form.reset();
-            window.location.reload();
+            document.getElementById('modal-sucesso').classList.add('active');
         })
-        .catch(function(error) {
-            alert("⚠️ Houve um erro na conexão. Tente novamente.");
-            btn.innerText = textoOriginal;
-            btn.style.backgroundColor = "#003366";
+        .catch(function() {
+            mostrarAviso('Erro de conexão ao enviar. Verifique sua internet e tente novamente.');
             btn.disabled = false;
+            spinner.style.display = 'none';
+            textoBotao.textContent = 'Enviar Solicitação ao Gabinete';
         });
     }
 </script>
